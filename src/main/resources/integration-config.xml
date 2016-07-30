@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:jms="http://www.springframework.org/schema/integration/jms"
+	   xmlns:integration="http://www.springframework.org/schema/integration"
+	   xsi:schemaLocation="
+	   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
+	   http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd
+	   ">
+
+	<context:component-scan base-package="org.raescott.springintegrationexample">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<bean id="myJmsQueue" class="org.apache.activemq.command.ActiveMQQueue" >
+		<constructor-arg value="my.queue" />
+	</bean>
+
+	<jms:message-driven-channel-adapter id="myJmsAdapater" destination="myJmsQueue"
+										connection-factory="jmsConnectionFactory"  channel="myChannel"/>
+
+	<integration:channel id="myChannel"/>
+
+	<integration:service-activator id="myServiceActivator" input-channel="myChannel"
+								   ref="myJmsService" method="myService"/>
+
+</beans>

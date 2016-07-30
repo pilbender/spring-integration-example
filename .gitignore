@@ -1,0 +1,17 @@
+# Maven build binaries
+target/
+**/pom.xml.versionsBackup
+
+# Eclipse generated structures
+.settings/
+.classpath
+.project
+bin/
+
+# Intellij generated structures
+.idea
+*.iml
+
+# Mac OSX files
+.DS_Store
+
