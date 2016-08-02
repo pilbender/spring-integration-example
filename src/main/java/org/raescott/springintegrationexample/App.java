@@ -28,10 +28,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class App {
 
 	public static void main(String[] args) throws JMSException, InterruptedException {
-		SpringApplication.run(App.class, args);
+		ApplicationContext applicationContext = SpringApplication.run(App.class, args);
 
 		// Convert to the above to use Spring Boot again.
-		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:integration-config.xml");
 		BeanFactory beanFactory = applicationContext;
 		ConnectionFactory jmsConnectionFactory = (ConnectionFactory) beanFactory.getBean("jmsConnectionFactory");
 
@@ -49,17 +48,18 @@ public class App {
 		producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
 
 		// This is the JMS object message
-		TextMessage textMessageToSend = session.createTextMessage();
-		textMessageToSend.setText("Scott Smith");
+		TextMessage textMessageToSend1 = session.createTextMessage();
+		textMessageToSend1.setText("Scott Smith");
 
 		// Send to the JMS Queue
-		producer.send(destinationQueue, textMessageToSend);
+		producer.send(destinationQueue, textMessageToSend1);
 
 		Thread.sleep(3000); // wait 3 seconds
 
-		TextMessage textMessage = session.createTextMessage();
-		textMessage.setText("Another test message");
-		producer.send(destinationQueue, textMessage);
+		// Another JMS object message
+		TextMessage textMessageToSend2 = session.createTextMessage();
+		textMessageToSend2.setText("Another test message");
+		producer.send(destinationQueue, textMessageToSend2);
 
 		// None of this matters for this.
 		producer.close();
