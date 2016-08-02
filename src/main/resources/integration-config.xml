@@ -17,6 +17,12 @@
 		<constructor-arg value="my.queue" />
 	</bean>
 
+	<!-- Uncomment to use the localhost installation of ActiveMQ
+	<bean id="jmsConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+		<property name="brokerURL" value="tcp://localhost:61616" />
+	</bean>
+	-->
+
 	<jms:message-driven-channel-adapter id="myJmsAdapater" destination="myJmsQueue"
 										connection-factory="jmsConnectionFactory"  channel="myChannel"/>
 
