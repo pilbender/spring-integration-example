@@ -16,9 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.aws.messaging.core.QueueMessagingTemplate;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.amazonaws.auth.BasicAWSCredentials;
 
 /**
  * @author Richard Scott Smith <scott.smith@isostech.com>
@@ -33,6 +36,7 @@ public class App {
 		// Convert to the above to use Spring Boot again.
 		BeanFactory beanFactory = applicationContext;
 		ConnectionFactory jmsConnectionFactory = (ConnectionFactory) beanFactory.getBean("jmsConnectionFactory");
+		//SqsService sqsService = (SqsService) beanFactory.getBean("sqsService");
 
 		String queueName = MyJmsService.MY_QUEUE; // JMS Queue name
 		Session session; // JMS Session
@@ -54,7 +58,7 @@ public class App {
 		// Send to the JMS Queue
 		producer.send(destinationQueue, textMessageToSend1);
 
-		Thread.sleep(3000); // wait 3 seconds
+		//Thread.sleep(3000); // wait 3 seconds
 
 		// Another JMS object message
 		TextMessage textMessageToSend2 = session.createTextMessage();
@@ -65,6 +69,20 @@ public class App {
 		producer.close();
 		session.close();
 		conn.close();
+
+		// Adding SQS code to test
+		QueueMessagingTemplate queueMessagingTemplate = (QueueMessagingTemplate) beanFactory.getBean("queueMessagingTemplate");
+		Person person = new Person();
+		person.setFirstName("Scott");
+		person.setLastName("Smith");
+		queueMessagingTemplate.convertAndSend("assess-ci-POC", person);
+		Person person1 = queueMessagingTemplate.receiveAndConvert("assess-ci-POC", Person.class);
+		//TextMessage message = (TextMessage) queueMessagingTemplate.receive("assess-ci-POC");
+		System.out.println("********************************************************************************");
+		System.out.println("Received message:");
+		System.out.println(person1);
+		System.out.println("********************************************************************************");
+
 		System.exit(0);
 	}
 }

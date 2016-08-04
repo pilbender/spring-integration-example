@@ -45,6 +45,7 @@
 			<artifactId>activemq-broker</artifactId>
 			<version>5.13.4</version>
 		</dependency>
+
 		<!--needed to support Spock-->
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
@@ -60,6 +61,47 @@
 			<groupId>org.spockframework</groupId>
 			<artifactId>spock-spring</artifactId>
 			<version>1.0-groovy-2.4</version>
+		</dependency>
+
+		<!-- Implements the Amazon SQS interface but can be embedded -->
+		<dependency>
+			<groupId>org.elasticmq</groupId>
+			<artifactId>elasticmq-rest-sqs_2.11</artifactId>
+			<version>0.9.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk</artifactId>
+			<version>1.11.22</version>
+			<!--<version>1.9.6</version>-->
+		</dependency>
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>amazon-sqs-java-messaging-lib</artifactId>
+			<version>1.0.1</version>
+			<type>jar</type>
+		</dependency>
+		<!--
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>amazon-sqs-java-extended-client-lib</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-aws-context</artifactId>
+			<version>1.1.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-aws-messaging</artifactId>
+			<version>1.1.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-aws-autoconfigure</artifactId>
+			<version>1.1.0.RELEASE</version>
 		</dependency>
 	</dependencies>
 

@@ -3,10 +3,14 @@
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xmlns:jms="http://www.springframework.org/schema/integration/jms"
 	   xmlns:integration="http://www.springframework.org/schema/integration"
+	   xmlns:aws-context="http://www.springframework.org/schema/cloud/aws/context"
+	   xmlns:aws-messaging="http://www.springframework.org/schema/cloud/aws/messaging"
 	   xsi:schemaLocation="
 	   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
 	   http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd
+	   http://www.springframework.org/schema/cloud/aws/context http://www.springframework.org/schema/cloud/aws/context/spring-cloud-aws-context-1.0.xsd
+	   http://www.springframework.org/schema/cloud/aws/messaging http://www.springframework.org/schema/cloud/aws/messaging/spring-cloud-aws-messaging-1.0.xsd
 	   ">
 
 	<context:component-scan base-package="org.raescott.springintegrationexample">
@@ -31,4 +35,19 @@
 	<integration:service-activator id="myServiceActivator" input-channel="myChannel"
 								   ref="myJmsService" method="myService"/>
 
+	<!-- Amazon SQS configuration -->
+	<aws-context:context-region region="us-west-2" />
+	<aws-context:context-credentials>
+		<!--<aws-context:instance-profile-credentials />-->
+		<aws-context:simple-credentials
+				access-key="AKIAJDVYIBHONWSM6ZWQ"
+				secret-key="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"/>
+		<!--
+		access-key="AKIAJOTQRR6BWATQDRZA"
+		secret-key="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"
+		-->
+	</aws-context:context-credentials>
+	<bean id="amazonSqs" class="com.amazonaws.services.sqs.AmazonSQSAsyncClient" />
+	<!--<aws-messaging:queue-messaging-template id="queueMessagingTemplate" amazon-sqs="amazonSqs" />-->
+	<aws-messaging:queue-messaging-template id="queueMessagingTemplate" />
 </beans>
